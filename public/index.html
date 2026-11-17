@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Week 12 — Online Bookstore</title>
+<style>
+body{font-family:system-ui,-apple-system,Arial,sans-serif;max-width:850px;margin:2rem auto;padding:0 1rem;color:#18232c;background:#fafbfd}
+main{background:white;border:1px solid #e5e8ef;border-radius:14px;padding:1.5rem}
+input,button,select{font:inherit;padding:.7rem;border-radius:8px;border:1px solid #aab4c2}input{width:100%;box-sizing:border-box}
+label{display:block;margin:.8rem 0 .3rem;font-weight:600}button{cursor:pointer;background:#1654a7;color:white;margin:.8rem .5rem .8rem 0;border:0}button:disabled{opacity:.5}
+pre{white-space:pre-wrap;background:#f2f5fb;border-radius:8px;padding:1rem;overflow-wrap:anywhere}small{color:#56677a}
+</style></head><body><main><h1>Online Bookstore</h1><p>Week 12: FTS5 vs Vectorize vs RAG</p>
+<label for="token">Demo token (held in this page only; not saved)</label><input id="token" type="password" autocomplete="off" placeholder="DEMO_TOKEN from .dev.vars" value="week12-demo-secret-token-2026"/>
+<label for="q">Customer question (English)</label><input id="q" value="I want a beginner-friendly book about relational databases."/>
+<div><button data-mode="fts">FTS5</button><button data-mode="semantic">Semantic Search</button><button data-mode="recommend">AI Recommendation</button></div>
+<small>Run POST /api/admin/index with your ADMIN_TOKEN first. Do not paste an admin token into this page.</small>
+<h2>Output</h2><pre id="output">Ready.</pre></main>
+<script>
+const output=document.getElementById('output');
+document.querySelectorAll('button[data-mode]').forEach(button=>button.addEventListener('click',async()=>{
+  const mode=button.dataset.mode,token=document.getElementById('token').value;
+  const q=document.getElementById('q').value.trim();
+  if(!token || q.length<3){output.textContent='Enter a demo token and a question.';return;}
+  output.textContent='Searching...';
+  try{
+    const r=await fetch(`/api/${mode}?q=${encodeURIComponent(q)}`,{headers:{Authorization:`Bearer ${token}`}});
+    const data=await r.json(); output.textContent=JSON.stringify(data,null,2);
+  }catch(e){output.textContent=String(e);}
+}));
+</script></body></html>

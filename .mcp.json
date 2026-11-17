@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ai-browser": {
+      "type": "http",
+      "url": "http://127.0.0.1:43123/mcp",
+      "headers": {
+        "Authorization": "Bearer d579e572a4b64ac794d3666466c59050abe49dce1e4c44579758188b7110a565"
+      }
+    }
+  }
+}
