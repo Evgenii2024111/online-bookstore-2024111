@@ -14,17 +14,19 @@ description: Run spec-anchored SDD for the Online Bookstore capstone with Spec K
 - docs/llm-wiki/ holds knowledge notes, never requirements.
 
 ## Workflow (one small feature at a time)
-1. Identify the feature and its spec folder.
-2. New feature: use speckit-specify. Existing feature: read spec.md first.
-3. List ambiguities as questions. Never assume missing behavior.
-4. Propose spec changes as a diff. Write them only after the student says "approve".
-5. Run speckit-plan, then speckit-tasks. Show tasks.md and wait for approval.
-6. Run speckit-implement for the approved tasks only.
-7. Run the real tests: npx vitest run. Run SQL with wrangler d1 execute --local.
-8. Compare every result with its acceptance criterion.
-9. If a test reveals a missing rule, stop and propose a spec change (CHG-xxx in docs/changes.md).
-10. Run speckit-converge before each Review.
-11. Report changed files, commands run, real output, and unmet criteria.
+1. If the request is a Health Check or no specific feature is specified (e.g. only invoking bookstore-sdd):
+   Do NOT modify any files, do not run vitest or grep. Immediately report workspace path, git status, every skill you can use, and the output of `npx wrangler d1 execute bookstore-db --local --command "SELECT 1"`. Then stop.
+2. Identify the feature and its spec folder.
+3. New feature: use speckit-specify. Existing feature: read spec.md first.
+4. List ambiguities as questions. Never assume missing behavior.
+5. Propose spec changes as a diff. Write them only after the student says "approve".
+6. Run speckit-plan, then speckit-tasks. Show tasks.md and wait for approval.
+7. Run speckit-implement for the approved tasks only.
+8. Run the real tests: npx vitest run. Run SQL with wrangler d1 execute --local.
+9. Compare every result with its acceptance criterion.
+10. If a test reveals a missing rule, stop and propose a spec change (CHG-xxx in docs/changes.md).
+11. Run speckit-converge before each Review.
+12. Report changed files, commands run, real output, and unmet criteria.
 
 ## Write permissions
 - May write: specs/ (after approval), src/, migrations/, tests/, sql/seed.sql.
