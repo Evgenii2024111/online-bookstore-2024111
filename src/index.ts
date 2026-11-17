@@ -132,7 +132,13 @@ export default {
     try {
       if(method==='GET' && path==='/api/health') return json({status:'ok',project:'Week12 Online Bookstore RAG'});
       if(method==='GET' && path==='/api/books') {
-        const {results}=await env.DB.prepare('SELECT * FROM books ORDER BY id').all();
+        const categoryId = url.searchParams.get('category_id');
+        if (categoryId) {
+          const {results} = await env.DB.prepare('SELECT b.*, c.name as category_name FROM books b JOIN categories c ON b.category_id = c.id WHERE b.category_id = ? ORDER BY b.id')
+            .bind(Number(categoryId)).all();
+          return json({books:results});
+        }
+        const {results}=await env.DB.prepare('SELECT b.*, c.name as category_name FROM books b JOIN categories c ON b.category_id = c.id ORDER BY b.id').all();
         return json({books:results});
       }
       if(method==='GET' && path==='/api/documents') {
