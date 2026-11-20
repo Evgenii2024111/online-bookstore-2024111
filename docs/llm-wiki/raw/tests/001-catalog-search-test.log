@@ -1,0 +1,79 @@
+
+ RUN  v5.1.1 /Users/ser/Desktop/bookstore
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001)
+Using secrets defined in .dev.vars
+Your Worker has access to the following bindings:
+Binding                                    Resource                  Mode
+env.DB (bookstore-db)                      D1 Database               local
+env.VECTORIZE (w12-rag-vectors)            Vectorize Index           remote
+env.AI                                     AI                        remote
+env.ASSETS                                 Assets                    local
+env.DEMO_TOKEN ("(hidden)")                Environment Variable      local
+env.ADMIN_TOKEN ("(hidden)")               Environment Variable      local
+env.SUPABASE_DB_URL ("(hidden)")           Environment Variable      local
+
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001)
+⎔ Establishing remote connection...
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-CATALOG-01: GET /api/books returns book catalog
+⎔ Starting local server...
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-CATALOG-01: GET /api/books returns book catalog
+[wrangler:info] Ready on http://127.0.0.1:60938
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-CATALOG-01: GET /api/books returns book catalog
+[wrangler:info] GET /api/books 200 OK (14677ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-CATALOG-02: GET /api/books/:id returns single book or 404
+[wrangler:info] GET /api/books/1 200 OK (9ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-CATALOG-03: GET /api/categories returns category list
+[wrangler:info] GET /api/books/999999 404 Not Found (8ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-CATALOG-03: GET /api/categories returns category list
+[wrangler:info] GET /api/categories 200 OK (7ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-01: Searching "database" returns books whose title or author matches
+[wrangler:info] GET /api/books/search 200 OK (8ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-02: Searching "DATABASE" returns the same results (case-insensitive)
+[wrangler:info] GET /api/books/search 200 OK (8ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-02: Searching "DATABASE" returns the same results (case-insensitive)
+[wrangler:info] GET /api/books/search 200 OK (7ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-03: Searching "unknown-book-xyz" returns []
+[wrangler:info] GET /api/books/search 200 OK (8ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-04: The response never contains more than 10 books
+[wrangler:info] GET /api/books/search 200 OK (7ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-05: An empty query returns HTTP 400
+[wrangler:info] GET /api/books/search 400 Bad Request (6ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-06: "  database  " returns the same results as "database"
+[wrangler:info] GET /api/books/search 400 Bad Request (6ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-06: "  database  " returns the same results as "database"
+[wrangler:info] GET /api/books/search 200 OK (7ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001) > AC-SEARCH-06: "  database  " returns the same results as "database"
+[wrangler:info] GET /api/books/search 200 OK (6ms)
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001)
+⎔ Shutting down local server...
+
+stdout | tests/001-catalog.test.ts > Catalog & Search API Tests (SPEC-001)
+⎔ Shutting down remote connection...
+
+ ✓ tests/001-catalog.test.ts (9 tests) 15339ms
+   ✓ Catalog & Search API Tests (SPEC-001) (9)
+     ✓ AC-CATALOG-01: GET /api/books returns book catalog 14700ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  03:38:28
+   Duration  17.32s (tests 90%, import 9%, transform 1%)
+

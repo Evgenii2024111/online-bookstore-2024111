@@ -130,7 +130,35 @@ export default {
     const {pathname:path}=url;
     const method=request.method;
     try {
-      if(method==='GET' && path==='/api/health') return json({status:'ok',project:'Week12 Online Bookstore RAG'});
+      if(method==='GET' && path==='/api/health') return json({status:'ok',project:'Online Bookstore'});
+      if(method==='GET' && path==='/api/categories') {
+        const {results} = await env.DB.prepare('SELECT * FROM categories ORDER BY id ASC').all();
+        return json(results);
+      }
+      if(method==='GET' && path==='/api/books/search') {
+        const rawQ = url.searchParams.get('q');
+        if (rawQ === null || rawQ.trim() === '') {
+          return json({ error: 'Search query cannot be empty' }, 400);
+        }
+        const q = rawQ.trim().toLowerCase();
+        const pattern = `%${q}%`;
+        const { results } = await env.DB.prepare(`
+          SELECT b.*, c.name as category_name
+          FROM books b
+          LEFT JOIN categories c ON b.category_id = c.id
+          WHERE LOWER(b.title) LIKE ? OR LOWER(b.author) LIKE ?
+          LIMIT 10
+        `).bind(pattern, pattern).all();
+        return json(results);
+      }
+      const singleBookMatch = path.match(/^\/api\/books\/(\d+)$/);
+      if(method==='GET' && singleBookMatch) {
+        const bookId = Number(singleBookMatch[1]);
+        const book = await env.DB.prepare('SELECT b.*, c.name as category_name FROM books b LEFT JOIN categories c ON b.category_id = c.id WHERE b.id = ?')
+          .bind(bookId).first();
+        if(!book) return json({ error: 'Book not found' }, 404);
+        return json(book);
+      }
       if(method==='GET' && path==='/api/books') {
         const categoryId = url.searchParams.get('category_id');
         if (categoryId) {
